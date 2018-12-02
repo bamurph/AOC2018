@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B528DBD421B30EBE001F91E6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528DBD321B30EBE001F91E6 /* main.swift */; };
-		B528DBE321B36327001F91E6 /* ReadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528DBE221B36327001F91E6 /* ReadFile.swift */; };
+		B528DBD421B30EBE001F91E6 /* day1.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528DBD321B30EBE001F91E6 /* day1.swift */; };
+		B563CC9221B435690093A6B1 /* input1.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563CC9121B435690093A6B1 /* input1.swift */; };
+		B563CC9421B435EE0093A6B1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563CC9321B435EE0093A6B1 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +26,9 @@
 
 /* Begin PBXFileReference section */
 		B528DBD021B30EBE001F91E6 /* AOC2018 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AOC2018; sourceTree = BUILT_PRODUCTS_DIR; };
-		B528DBD321B30EBE001F91E6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		B528DBE121B36230001F91E6 /* input.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
-		B528DBE221B36327001F91E6 /* ReadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFile.swift; sourceTree = "<group>"; };
+		B528DBD321B30EBE001F91E6 /* day1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day1.swift; sourceTree = "<group>"; };
+		B563CC9121B435690093A6B1 /* input1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = input1.swift; sourceTree = "<group>"; };
+		B563CC9321B435EE0093A6B1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 			children = (
 				B528DBE021B361D0001F91E6 /* Library */,
 				B528DBDC21B3100C001F91E6 /* Day1 */,
+				B563CC9321B435EE0093A6B1 /* main.swift */,
 			);
 			path = AOC2018;
 			sourceTree = "<group>";
@@ -69,8 +71,8 @@
 		B528DBDC21B3100C001F91E6 /* Day1 */ = {
 			isa = PBXGroup;
 			children = (
-				B528DBD321B30EBE001F91E6 /* main.swift */,
-				B528DBE121B36230001F91E6 /* input.txt */,
+				B528DBD321B30EBE001F91E6 /* day1.swift */,
+				B563CC9121B435690093A6B1 /* input1.swift */,
 			);
 			path = Day1;
 			sourceTree = "<group>";
@@ -78,7 +80,6 @@
 		B528DBE021B361D0001F91E6 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				B528DBE221B36327001F91E6 /* ReadFile.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -140,8 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B528DBE321B36327001F91E6 /* ReadFile.swift in Sources */,
-				B528DBD421B30EBE001F91E6 /* main.swift in Sources */,
+				B563CC9221B435690093A6B1 /* input1.swift in Sources */,
+				B528DBD421B30EBE001F91E6 /* day1.swift in Sources */,
+				B563CC9421B435EE0093A6B1 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
