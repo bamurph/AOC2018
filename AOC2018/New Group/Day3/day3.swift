@@ -43,10 +43,22 @@ func dayThree() {
             return (occupiesX, occupiesY)
         }
 
+        var occupiedSquareInches: [(Int, Int)] {
+            var osi = [(Int, Int)]()
+            for ox in occupiesX {
+                for oy in occupiesY {
+                    osi.append((ox,oy))
+                }
+            }
+        }
+
         func overlaps(_ other: Area) -> Bool {
             return occupies.0.overlaps(other.0) && occupies.1.overlaps(other.1)
         }
+
     }
+
+
 
     let splitInput = input3
         .components(separatedBy: .newlines)
@@ -66,8 +78,14 @@ func dayThree() {
                      height: $0[4]!) }
 
 
+    func allOccupied(_ c: [Claim]) -> [(Int, Int)] {
+        return c.map { $0.occupiedSquareInches }
+            .reduce([]) { acc, next in
+                acc + next
+        }
+    }
 
-
+    
 
 }
 
