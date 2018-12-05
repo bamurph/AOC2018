@@ -22,15 +22,22 @@ func dayThree() {
         .components(separatedBy: .newlines)
         .map {
             $0.replacingOccurrences(of: "@ ", with: "")
+                .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: ",", with: " ")
                 .replacingOccurrences(of: ":", with: "")
                 .replacingOccurrences(of: "x", with: " ")
                 .components(separatedBy: .whitespaces)
-                .map { Int($0) }
-    }
+                .map { Int($0) }}
+    let claims = splitInput
+        .map {  Claim(id: $0[0]!,
+                     x: $0[1]!,
+                     y: $0[2]!,
+                     width: $0[3]!,
+                     height: $0[4]!) }
 
+    print(claims)
+    print(claims.count)
 
-    splitInput
 
 }
 
