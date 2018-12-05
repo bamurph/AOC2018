@@ -8,14 +8,37 @@
 
 import Foundation
 
+typealias Area = (ClosedRange<Int>, ClosedRange<Int>)
+
+protocol Occupies {
+    var occupies: Area { get }
+}
+
 func dayThree() {
 
-    struct Claim {
+    struct Claim: Occupies {
         let id: Int
         let x: Int
         let y: Int
         let width: Int
         let height: Int
+
+        func occupies(offset: Int, length: Int) -> ClosedRange<Int> {
+                let origin = x - 1
+                return (origin ... (origin + width))
+            }
+
+        var occupiesX: ClosedRange<Int> {
+            return occupies(offset: x, length: width)
+        }
+
+        var occupiesY: ClosedRange<Int> {
+            return occupies(offset: y, length: height)
+        }
+
+        var occupies: Area {
+            return (occupiesX, occupiesY)
+        }
     }
 
     let splitInput = input3
@@ -35,8 +58,8 @@ func dayThree() {
                      width: $0[3]!,
                      height: $0[4]!) }
 
-    print(claims)
-    print(claims.count)
+
+    func areaOverlaps(_ other: )
 
 
 }

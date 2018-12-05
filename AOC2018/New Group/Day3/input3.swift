@@ -7,7 +7,7 @@
 //
 
 import Foundation
-let input3 = """
+let input = """
 #1 @ 755,138: 26x19
 #2 @ 952,518: 15x24
 #3 @ 304,90: 28x12
