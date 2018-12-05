@@ -12,7 +12,10 @@ typealias Area = (ClosedRange<Int>, ClosedRange<Int>)
 
 protocol Occupies {
     var occupies: Area { get }
+    func overlaps(_ other: Area) -> Bool
 }
+
+
 
 func dayThree() {
 
@@ -39,6 +42,10 @@ func dayThree() {
         var occupies: Area {
             return (occupiesX, occupiesY)
         }
+
+        func overlaps(_ other: Area) -> Bool {
+            return occupies.0.overlaps(other.0) && occupies.1.overlaps(other.1)
+        }
     }
 
     let splitInput = input3
@@ -59,7 +66,7 @@ func dayThree() {
                      height: $0[4]!) }
 
 
-    func areaOverlaps(_ other: )
+
 
 
 }
