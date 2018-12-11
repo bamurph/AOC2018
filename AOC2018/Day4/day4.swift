@@ -15,17 +15,16 @@ func dayFour() {
         let guardID: Int?
         let action: String
     }
+
+    // Parse out the input
     let lines = sample4.components(separatedBy: .newlines)
     let records: [Record] = lines
-        .map {
-            let time = String(String($0.dropFirst()).prefix(through: $0.firstIndex(of: "]")!).dropLast(2))
-            let eventString = String(String($0.suffix(from: $0.firstIndex(of: "]")!)).dropFirst(2))
-            var guardID: Int? = nil
-            if eventString.range(of: "Guard") != nil {
-                guardID = Int(String(eventString.dropFirst(7).split(separator: " ").first!))
-            }
-            let actionString: String? = eventString.split(separator: " ").suffix(from: 2).joined(separator: " ")
-            return Record(time: time, guardID: guardID, action: actionString!)
+        .map { let split = $0.components(separatedBy: " ")
+            let time = split.prefix(2).joined(separator: " ").dropFirst().dropLast()
+            return Record(time:  String(time),
+                          guardID: (split[2] == "Guard" ? Int(split[3].dropFirst()) : nil),
+                          action: String(split.suffix(from: split.count - 2).joined(separator: " ")))
     }
-    print(records.randomElement())
+
+
 }
