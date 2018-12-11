@@ -16,6 +16,15 @@ func dayFour() {
         let action: String
     }
 
+    struct GuardRecord {
+        let id: Int
+        let minutesAsleep: [Range<Int>]
+
+        func totalMinutesAsleep() -> Int {
+            return minutesAsleep.map { $0.distance(from: $0.lowerBound, to:  $0.upperBound)}.reduce(0, +)
+        }
+    }
+
     // Parse out the input
     let lines = sample4.components(separatedBy: .newlines)
     var records: [Record] = lines
@@ -28,4 +37,10 @@ func dayFour() {
 
     // Simple sort by timestamps
     records.sort {$0.time < $1.time}
+
+    // Simple State Machine
+    class StateMachine {
+
+    }
 }
+
