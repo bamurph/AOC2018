@@ -18,7 +18,7 @@ func dayFour() {
 
     // Parse out the input
     let lines = sample4.components(separatedBy: .newlines)
-    let records: [Record] = lines
+    var records: [Record] = lines
         .map { let split = $0.components(separatedBy: " ")
             let time = split.prefix(2).joined(separator: " ").dropFirst().dropLast()
             return Record(time:  String(time),
@@ -26,5 +26,6 @@ func dayFour() {
                           action: String(split.suffix(from: split.count - 2).joined(separator: " ")))
     }
 
-
+    // Simple sort by timestamps
+    records.sort {$0.time < $1.time}
 }
