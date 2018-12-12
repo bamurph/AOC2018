@@ -16,13 +16,8 @@ func dayFour() {
         let action: String
     }
 
-    struct GuardRecord {
-        let id: Int
-        let minutesAsleep: [Range<Int>]
-
-        func totalMinutesAsleep() -> Int {
-            return minutesAsleep.map { $0.distance(from: $0.lowerBound, to:  $0.upperBound)}.reduce(0, +)
-        }
+    enum Status {
+        case awake, asleep
     }
 
     // Parse out the input
@@ -38,9 +33,14 @@ func dayFour() {
     // Simple sort by timestamps
     records.sort {$0.time < $1.time}
 
-    // Simple State Machine
-    class StateMachine {
-
+    // Add guard IDs to each record
+    records = records.reduce([Record]()) { acc, next in
+        if next.guardID != nil { return acc + [next] }
+        else { return acc + [Record(time: next.time,
+                              guardID: acc.last?.guardID!,
+                              action: next.action)]
+        }
     }
+    dump(records)
 }
 
