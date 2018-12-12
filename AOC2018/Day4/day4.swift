@@ -33,7 +33,7 @@ func dayFour() {
     // Parse out the input
     let lines = sample4.components(separatedBy: .newlines)
 
-    var records: [Record] = lines.sorted()
+    let records: [Record] = lines.sorted()
         .map { let split = $0.components(separatedBy: " ")
 
             let timeString = String(split.prefix(2).joined(separator: " ").dropFirst().dropLast().suffix(2))
@@ -45,14 +45,14 @@ func dayFour() {
 
 
 
-    // Add guard IDs to each record
-    let guardRecords = records.reduce([Record]()) { acc, next in
-        if next.guardID != nil { return acc + [next] }
-        else { return acc + [Record(time: next.time,
-                              guardID: acc.last?.guardID!,
-                              action: next.action)]
-        }
-    }
+//    // Add guard IDs to each record
+//    let guardRecords = records.reduce([Record]()) { acc, next in
+//        if next.guardID != nil { return acc + [next] }
+//        else { return acc + [Record(time: next.time,
+//                              guardID: acc.last?.guardID!,
+//                              action: next.action)]
+//        }
+//    }
 
 
 
@@ -75,7 +75,26 @@ func dayFour() {
 
     let sleepiestGuard = sleepTotals
         .max { a, b in a.value < b.value }!
-        .value
-    
+        .key
+
+
+
+    // Find the minute the sleepiest guard was asleep the most
+    let allAsleeps = sleepTimes
+            .filter {$0.id! == sleepiestGuard}
+        .compactMap { Array(zip($0.starts, $0.ends)) }
+        .reduce([],+)
+
+    let joinedSleeps = allAsleeps
+        .map { Array($0.0!...$0.1!) }
+        .reduce([], +)
+
+    let mostAsleep = joinedSleeps
+        .reduce(into: [:]) { counts, minute in counts[minute, default: 0] += 1 }
+        .max { a, b in a.value < b.value }!
+        .key
+print(sleepiestGuard)
+print(mostAsleep)
+
 }
 
