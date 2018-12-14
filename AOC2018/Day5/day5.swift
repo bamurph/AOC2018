@@ -25,29 +25,39 @@ extension Character {
        return false
     }
 }
-
 func dayFive() {
     // Part 1
     let polymer = input5
 
-    let reduced = polymer
-        .reduce(into: "") { acc, next in
+    func reduced(string: String) -> String {
+       return string.reduce(into: "") { acc, next in
             if acc.count == 0 { acc.append(next); return }
             if acc.last!.isOpposite(of: next) { acc.removeLast(); return }
             acc.append(next)
+        }
+
     }
-    print(reduced.count)
 
     // Part 2
 
     // make a dict of every letter removed + the polymer without that letter
     // i.e. [a: stringWithoutAora]
-
+    let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    let editedPolymers = alphabet.compactMap { char -> String in
+        print(char)
+        let lc = String(char).lowercased()
+        let uc = String(char).uppercased()
+        let newPolymer = polymer
+            .replacingOccurrences(of: lc, with: "")
+            .replacingOccurrences(of: uc, with: "")
+        return newPolymer
+    }
     // reduce each polymer
-    // [a: reducedStringWithoutA]
 
-    // count each reduced string
+    let reducedNew = editedPolymers.map { reduced(string: $0).count }
 
-    // identify the shortest
-
+  // count each reduced string
+    let min = reducedNew.min()
+    print(min)
 }
+
