@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+extension Character {
+    func isUpperCase() -> Bool {
+        return CharacterSet.uppercaseLetters.contains(self.unicodeScalars.first!)
+    }
+}
+
+func dayFive() {
+
+    let polymer = sample5
+
+
+}
