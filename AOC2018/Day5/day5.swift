@@ -39,4 +39,15 @@ func dayFive() {
     print(reduced.count)
 
     // Part 2
+
+    // make a dict of every letter removed + the polymer without that letter
+    // i.e. [a: stringWithoutAora]
+
+    // reduce each polymer
+    // [a: reducedStringWithoutA]
+
+    // count each reduced string
+
+    // identify the shortest
+
 }
