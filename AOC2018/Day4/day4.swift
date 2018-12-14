@@ -29,9 +29,8 @@ func dayFour() {
     }
 
 
-
     // Parse out the input
-    let lines = sample4.components(separatedBy: .newlines)
+    let lines = input4.components(separatedBy: .newlines)
 
     let records: [Record] = lines.sorted()
         .map { let split = $0.components(separatedBy: " ")
@@ -42,8 +41,7 @@ func dayFour() {
                           guardID: (split[2] == "Guard" ? Int(split[3].dropFirst()) : nil),
                           action: String(split.suffix(from: split.count - 2).joined(separator: " ")))
     }
-
-
+    let sorted1973 = records.filter {$0.guardID == 1973}
 
 //    // Add guard IDs to each record
 //    let guardRecords = records.reduce([Record]()) { acc, next in
@@ -68,6 +66,10 @@ func dayFour() {
 
     }
 
+    let guardSet = Set(sleepTimes.map {$0.id!})
+
+    let sleepTimesFor1973 = sleepTimes.filter { $0.id == 1973}
+
     let sleepTotals = sleepTimes.reduce(into: [Int:Int]()) { dict, entry in
         let timeAsleep = Array(zip(entry.ends, entry.starts)).map { $0.0! - $0.1! }.reduce(0,+)
         dict[entry.id!, default: 0] += timeAsleep
@@ -79,22 +81,76 @@ func dayFour() {
 
 
 
+    func sleepTimesFor(guard gID: Int) -> [(Int?, Int?)] {
+        return sleepTimes.filter {$0.id! == gID}
+            .compactMap( { Array(zip($0.starts, $0.ends))})
+            .reduce([],+)
+    }
+
+
     // Find the minute the sleepiest guard was asleep the most
-    let allAsleeps = sleepTimes
-            .filter {$0.id! == sleepiestGuard}
-        .compactMap { Array(zip($0.starts, $0.ends)) }
-        .reduce([],+)
+    let allAsleeps = sleepTimesFor(guard: sleepiestGuard)
 
     let joinedSleeps = allAsleeps
-        .map { Array($0.0!...$0.1!) }
+        .map { Array($0.0!..<$0.1!) }
         .reduce([], +)
 
     let mostAsleep = joinedSleeps
         .reduce(into: [:]) { counts, minute in counts[minute, default: 0] += 1 }
         .max { a, b in a.value < b.value }!
         .key
-print(sleepiestGuard)
-print(mostAsleep)
+    print("The sleepiest Guard is \(sleepiestGuard)")
+    print("is asleep for \(mostAsleep) minutes")
+    print("Checksum: guard id * time asleep = \(sleepiestGuard * mostAsleep)")
 
+
+    // Part 2
+    // Of ALL the guards which guard is MOST FREQUENTLY ASLEEP on the SAME minute?
+
+    var guardSleepTimes = [Int: [Int]]()
+
+    sleepTimes.forEach {
+        let minutes = Array(zip($0.starts, $0.ends))
+            .map {Array($0.0!...$0.1!)}
+            .flatMap { $0 }
+    
+        guardSleepTimes[$0.id!, default: []].append(contentsOf: minutes)
+    }
+
+    func countMinutes(minutes: [Int]) -> [Int:Int] {
+        return minutes.reduce(into: [:]) { acc, next in
+            acc[next, default: 0] += 1
+        }
+    }
+
+    func countGuardMinutes(guardMinutes: [Int: [Int]]) -> [Int:[Int:Int]] {
+        return guardMinutes.reduce(into: [:]) {acc, next in
+            acc.updateValue(countMinutes(minutes: next.value), forKey: next.key)
+        }
+    }
+
+
+    let countedGuardSleeps = countGuardMinutes(guardMinutes: guardSleepTimes)
+    _ = countedGuardSleeps
+
+
+    func maxSleepMinute(minutes: [Int: Int]) -> (Int, Int) {
+        if minutes.count == 0 { return (0, 0)}
+        let mm = minutes.max {a, b in a.value < b.value}
+
+        return (mm!.key, mm!.value)
+    }
+
+    _ = countedGuardSleeps
+
+    let guardsMaxSleepTimes = countedGuardSleeps
+        .flatMap {
+            [$0.key: maxSleepMinute(minutes: $0.value)]}
+        .map {($0.key, $0.value.0, $0.value.1)}
+
+    let sortedGuards = guardsMaxSleepTimes
+        .max { a, b in a.2 < b.2 }
+
+    print(sortedGuards!)
 }
 
