@@ -22,17 +22,31 @@ let all = afters.union(befores).map {String($0)}
 
 func daySeven() {
 
-    _ = all
+   let a = all.sorted()
     // Determine the order in which steps should be completed, if more than one is ready then do alphabetically.
 
     // Start by finding first step that has no unsatisfied predicates
-    let firstStep = all
+
+    var completed = all
         .filter { befores.contains($0.first!) != true }
         .sorted()
         .first!
-    // Now recheck predicates and sort steps with all satisfied
 
-    // Repeat until done
+    func workThrough(list: [String: String], completed: String) -> String {
+        let completable = list.filter { completed
+            .contains($0.value) == true }
+            .min { a, b in a.key < b.key }
+        if completable == nil { return completed }
+        let newlist = list.filter { $0 != completable!}
+        let updatedCompleted = completed + completable!.key
+
+        let toReturn = workThrough(list: newlist, completed: updatedCompleted)
+        return toReturn
+    }
+
+    print(workThrough(list: steps, completed: completed))
+
+
 
 
 }
