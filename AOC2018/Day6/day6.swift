@@ -30,6 +30,15 @@ fileprivate struct Coordinate {
         return (northeast && northwest && southwest && southeast)
     }
 
+    func closest(among: [Coordinate]) -> [Coordinate] {
+        return among.reduce(into: [Coordinate]()) {acc, next in
+            if acc.count == 0 { acc.append(next); return }
+            if acc.last!.distanceTo(self) == next.distanceTo(self) { acc.append(next); return  }
+            if acc.last!.distanceTo(self) > next.distanceTo(self) { acc = [next]; return }
+        }
+
+    }
+
 }
 
 func daySix() {
@@ -43,5 +52,17 @@ func daySix() {
 
     let finiteCoordinates = coordinates.filter { $0.isBounded(among: coordinates)}
 
+    let minX = coordinates.map { $0.x }.min()
+    let maxX = coordinates.map { $0.x }.max()
+    let minY = coordinates.map { $0.y }.min()
+    let maxY = coordinates.map { $0.y }.max()
 
+    let sequenceX = minX!...maxX!
+    let sequenceY = minY!...maxY!
+
+    let board = sequenceX.flatMap { x in sequenceY.map { y in Coordinate(x: x, y: y)}}
+    _ = board
+
+    let closestA = coordinates.first?.closest(among: coordinates)
+    _ = closestA
 }
