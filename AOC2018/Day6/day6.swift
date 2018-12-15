@@ -14,9 +14,11 @@ fileprivate func distanceBetween(first: Coordinate, second: Coordinate) -> Int {
     return (xDistance + yDistance)
 }
 
-fileprivate struct Coordinate {
+fileprivate struct Coordinate: Hashable {
     let x: Int
     let y: Int
+
+    
 
     func distanceTo(_ second: Coordinate) -> Int {
         return distanceBetween(first: self, second: second)
@@ -43,7 +45,7 @@ fileprivate struct Coordinate {
 
 func daySix() {
 
-    let lines = sample6.components(separatedBy: .newlines)
+    let lines = input6.components(separatedBy: .newlines)
 
     let coordinates = lines.map { line -> Coordinate in
         let coords = line.components(separatedBy: ", ")
@@ -60,9 +62,28 @@ func daySix() {
     let sequenceX = minX!...maxX!
     let sequenceY = minY!...maxY!
 
-    let board = sequenceX.flatMap { x in sequenceY.map { y in Coordinate(x: x, y: y)}}
-    _ = board
+    let sequenceX2 = 0...500
+    let sequenceY2 = 0...500
 
-    let closestA = coordinates.first?.closest(among: coordinates)
-    _ = closestA
+    let board2 = Set(sequenceX2.flatMap { x in sequenceY2.map { y in Coordinate(x: x, y:y)}})
+
+    let board = Set(sequenceX.flatMap { x in sequenceY.map { y in Coordinate(x: x, y: y)}})
+
+
+
+    let distances = board.map { ($0, $0.closest(among: coordinates)) }.filter {$0.1.count == 1}
+    let distances2 = board2.map {($0, $0.closest(among: coordinates))}.filter {$0.1.count == 1}
+
+    let areas1 = distances.reduce(into: [Coordinate:Int]()) { acc, next in
+        acc[next.1.first!, default: 0] += 1 }
+
+    let areas2 = distances2.reduce(into: [Coordinate:Int]()) { acc, next in
+        acc[next.1.first!, default: 0] += 1 }
+
+    let result = zip(areas1, areas2)
+        .filter { $0 == $1 }
+        .map {$0.0.value}
+        .max()!
+    
+    print(result)
 }
