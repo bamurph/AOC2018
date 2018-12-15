@@ -10,6 +10,9 @@ import Foundation
 // Just call the appropriate day's function to run in main, comment or uncomment as needed to run
 // dayOne()
 let start = Date()
-daySixPartTwo()
+
+// Update this line with appropriate day to run
+daySeven()
+
 let elapsed = start.timeIntervalSinceNow * -1
 print("Elapsed Time: \(elapsed)")
