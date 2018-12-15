@@ -8,6 +8,14 @@
 
 import Foundation
 
+fileprivate let lines = input6.components(separatedBy: .newlines)
+
+fileprivate let coordinates = lines.map { line -> Coordinate in
+    let coords = line.components(separatedBy: ", ")
+    return Coordinate(x: Int(coords[0])!, y: Int(coords[1])!)
+}
+
+
 fileprivate func distanceBetween(first: Coordinate, second: Coordinate) -> Int {
     let xDistance = abs(first.x - second.x)
     let yDistance = abs(first.y - second.y)
@@ -18,10 +26,16 @@ fileprivate struct Coordinate: Hashable {
     let x: Int
     let y: Int
 
-    
-
     func distanceTo(_ second: Coordinate) -> Int {
         return distanceBetween(first: self, second: second)
+    }
+
+
+
+    func totalDistanceTo(_ coordinates: [Coordinate]) -> Int {
+        return coordinates
+            .map { self.distanceTo($0) }
+            .reduce(0,+)
     }
 
     func isBounded(among: [Coordinate]) -> Bool {
@@ -45,13 +59,6 @@ fileprivate struct Coordinate: Hashable {
 
 func daySix() {
 
-    let lines = input6.components(separatedBy: .newlines)
-
-    let coordinates = lines.map { line -> Coordinate in
-        let coords = line.components(separatedBy: ", ")
-        return Coordinate(x: Int(coords[0])!, y: Int(coords[1])!)
-    }
-
     let finiteCoordinates = coordinates.filter { $0.isBounded(among: coordinates)}
 
     let minX = coordinates.map { $0.x }.min()
@@ -66,7 +73,6 @@ func daySix() {
     let sequenceY2 = 0...500
 
     let board2 = Set(sequenceX2.flatMap { x in sequenceY2.map { y in Coordinate(x: x, y:y)}})
-
     let board = Set(sequenceX.flatMap { x in sequenceY.map { y in Coordinate(x: x, y: y)}})
 
 
@@ -84,6 +90,20 @@ func daySix() {
         .filter { $0 == $1 }
         .map {$0.0.value}
         .max()!
-    
-    print(result)
+
+
 }
+
+func daySixPartTwo() {
+    assert(Coordinate(x: 4, y: 3).distanceTo(Coordinate(x:1,y:1)) == 5)
+    assert(Coordinate(x: 4, y: 3).distanceTo(Coordinate(x:8,y:9)) == 10)
+    let range = 0...400
+    let board = range.flatMap { x in range.map { y in Coordinate(x: x, y: y)}}
+
+    let totalDistances = board
+        .map { $0.totalDistanceTo(coordinates) }
+
+    let inRegion = totalDistances.filter { $0 < 10000}
+    _ = inRegion
+}
+
