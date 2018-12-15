@@ -16,9 +16,9 @@ fileprivate let steps = sample7
     .reduce(into: [String: String]()) { acc, next in
         acc.merge(next, uniquingKeysWith: +)}
 
-let seconds = Set(steps.flatMap { Array($0.key) })
-let firsts = Set(steps.flatMap { Array($0.value) })
-let all = firsts.union(seconds).map {String($0)}
+let befores = Set(steps.flatMap { Array($0.key) })
+let afters = Set(steps.flatMap { Array($0.value) })
+let all = afters.union(befores).map {String($0)}
 
 func daySeven() {
 
@@ -26,7 +26,10 @@ func daySeven() {
     // Determine the order in which steps should be completed, if more than one is ready then do alphabetically.
 
     // Start by finding first step that has no unsatisfied predicates
-    
+    let firstStep = all
+        .filter { befores.contains($0.first!) != true }
+        .sorted()
+        .first!
     // Now recheck predicates and sort steps with all satisfied
 
     // Repeat until done
