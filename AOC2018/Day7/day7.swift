@@ -7,3 +7,28 @@
 //
 
 import Foundation
+
+// Parse out steps like "step: [predicate]"
+fileprivate let steps = sample7
+    .components(separatedBy: .newlines)
+    .map { $0.components(separatedBy: " ") }
+    .map { [$0[7]: $0[1]] }
+    .reduce(into: [String: String]()) { acc, next in
+        acc.merge(next, uniquingKeysWith: +)
+}
+
+
+
+func daySeven() {
+
+
+    // Determine the order in which steps should be completed, if more than one is ready then do alphabetically.
+
+    // Start by finding first step that has no unsatisfied predicates
+
+    // Now recheck predicates and sort steps with all satisfied
+
+    // Repeat until done
+
+
+}
