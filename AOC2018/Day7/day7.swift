@@ -32,12 +32,7 @@ func daySeven() {
         .joined()
 
 
-
-
-
     func sortThrough(list: [String: String], completed: String, initials: String) -> String {
-
-
 
         let completable = list
             .filter { Set($0.value).isSubset(of: Set(completed))}
