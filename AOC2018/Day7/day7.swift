@@ -31,7 +31,6 @@ func daySeven() {
         .sorted()
         .joined()
 
-
     func sortThrough(list: [String: String], completed: String, initials: String) -> String {
 
         let completable = list
