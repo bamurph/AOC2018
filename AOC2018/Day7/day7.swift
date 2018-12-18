@@ -9,7 +9,7 @@
 import Foundation
 
 // Parse out steps with predicates like "step: [predicate]"
-fileprivate let steps = input7
+fileprivate var steps = sample7
     .components(separatedBy: .newlines)
     .map { $0.components(separatedBy: " ") }
     .map { [$0[7]: $0[1]] }
@@ -19,39 +19,43 @@ fileprivate let steps = input7
 let befores = Set(steps.flatMap { Array($0.key) })
 let afters = Set(steps.flatMap { Array($0.value) })
 let all = afters.union(befores).map {String($0)}
-
+let noReqs = afters.subtracting(befores).flatMap { [String($0): ""] }
+let allReqs = steps.merging(noReqs, uniquingKeysWith: +)
 func daySeven() {
 
 
     // Determine the order in which steps should be completed, if more than one is ready then do alphabetically.
+   print(allReqs)
+//    let stepsWithRequirements = steps
+//        .reduce([String: [String]]()) { acc, next in
+//           let reqs = steps.wher
+//    }
 
     // Start by finding first step that has no unsatisfied predicates
 
-    let fs = all.filter { befores.contains($0.first!) != true }
-        .sorted()
-        .joined()
 
-    func sortThrough(list: [String: String], completed: String, initials: String) -> String {
-
-        let completable = list
-            .filter { Set($0.value).isSubset(of: Set(completed))}
-            .map { $0.key }
-            .sorted().joined() + initials
-
-        if completable == "" { return completed }
-
-        let next = String(completable.first!)
-
-        let newInitials = initials.replacingOccurrences(of: next, with: "")
-
-        let newlist = list.filter { $0.key != next}
-        let updatedCompleted = completed + next
-
-        let toReturn = sortThrough(list: newlist, completed: updatedCompleted, initials: newInitials)
-        return toReturn
+    func completable(in list: [String: String]) -> [String: String] {
+        return list
+            .filter {$0.value == ""}
     }
 
-    let ls = sortThrough(list: steps, completed: "", initials: String(fs))
+    func sortThrough(list: [String: String], completed: String) -> String {
+        let clist = completable(in: list)
+            .reduce(into: [String: String]()) { acc, next in
+            if completed.contains(next.key) != true {
+                acc.updateValue(next.value, forKey: next.key) }}
+
+        guard let next = clist.keys.sorted().first else { return completed }
+
+        let newList = list.mapValues { value in
+            value.replacingOccurrences(of: next, with: "")
+        }
+        let newCompleted = completed + next
+
+        return sortThrough(list: newList, completed: newCompleted)
+    }
+
+    let ls = sortThrough(list: allReqs, completed: "")
 
 
     print(ls)
