@@ -60,4 +60,24 @@ func daySeven() {
 
     print(ls)
 
+    // Part 2
+
+    let baseTime = 0 // Change this to 60 for real problem
+    let workers = [1:"", 2:""] // Change to 5 workers for real problem
+
+    let stepTimes = zip(Array("abcdefghijklmnopqrstuvwxyz"), 1...26)
+        .map {[$0.0:$0.1]}
+        .reduce(into: [:]) { acc, next in
+            acc.merge(next, uniquingKeysWith: +)
+    }
+    let allReqsWithTimes = allReqs
+        .map { [$0.key: ($0.value, stepTimes[$0.key.first!]!)]}
+
+    // The updated Sort Function needs to also take current time (an int) and
+    // a hash of worker:(step::(timecount, stepTimeForThatStep) to track which
+    // worker is working which step and for how long they have been working on it.
+    // The function needs to check the count of the current worker's steps vs.
+    // the stepTimeForThatStep and when theyre equal that steps is counted as done
+
+
 }
